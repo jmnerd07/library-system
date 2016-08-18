@@ -16,8 +16,8 @@ class CreateBorrowerAccountsTable extends Migration
     {
         Schema::create('borrower_accounts', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
-            $table->string('name')->unique();
-            $table->string('email')->unique();
+            $table->string('name');
+            $table->string('email');
             $table->string('password', 60);
             $table->boolean('active')->default(TRUE);
             $table->string('salt');
