@@ -20,8 +20,8 @@ class CreateBooksGenresTable extends Migration
             $table->bigInteger('genre_id')->unsigned()->nullable();
             $table->bigInteger('user_id_creator')->unsigned()->nullable();
             $table->softDeletes();
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->datetime('updated_at')->nullable();
+            $table->timestamp('created_at')->nullable()->useCurrent();
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
             $table->foreign('genre_id')->references('id')->on('genres')->onDelete('cascade');
             $table->foreign('user_id_creator')->references('id')->on('users')->onDelete('set null');

@@ -28,8 +28,8 @@ class CreateBooksTable extends Migration
             $table->bigInteger('user_id_modifier')->unsigned()->nullable();
             $table->bigInteger('record_id')->unsigned()->nullable();
             $table->softDeletes();            
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->datetime('updated_at')->nullable();
+            $table->timestamp('created_at')->nullable()->useCurrent();
+            $table->timestamp('updated_at')->nullable()->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
             $table->foreign('author_id')->references('id')->on('authors')->onDelete('set null');
             $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('set null');
             $table->foreign('record_id')->references('id')->on('books')->onDelete('set null');
