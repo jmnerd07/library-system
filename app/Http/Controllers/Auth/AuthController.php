@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Hash;
 use App\Models\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -35,6 +36,7 @@ class AuthController extends Controller
      *
      * @return void
      */
+    protected $username = "username";
     public function __construct()
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
@@ -49,9 +51,12 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'username' => 'required|max:255|min:6|unique:users',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+        ],
+        [
+            'username.min'=>'Username must be minimum of 6 characters'
         ]);
     }
 
@@ -63,10 +68,25 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $newUser = User::create([
+            'username' => $data['username'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
+            'updated_at'=>NULL
         ]);
+        $newUser->save();
+        if($newUser->id)
+        {
+            $copyUser = new User;
+            $copyUser->username = $newUser->username;
+            $copyUser->email = $newUser->email;
+            $copyUser->password = $newUser->password;
+            $copyUser->record_id = $newUser->id;
+            $copyUser->updated_at = $newUser->updated_at;
+            $copyUser->remember_token = $newUser->remember_token;
+            $copyUser->save();
+
+        }
+        return $newUser;
     }
 }

@@ -7,18 +7,25 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
+                    @if($errors && count($errors->all()) > 0)
+                        <div class="alert alert-danger">
+                            @foreach($errors->all() as $key => $error)
+                            <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Username</label>
+                        <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
+                            <label for="username" class="col-md-4 control-label">User Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="name" class="form-control" name="name" value="{{ old('name') }}">
+                                <input id="username" type="username" class="form-control" name="username" value="{{ old('username') }}">
 
-                                @if ($errors->has('name'))
+                                @if ($errors->has('username'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('username') }}</strong>
                                     </span>
                                 @endif
                             </div>
