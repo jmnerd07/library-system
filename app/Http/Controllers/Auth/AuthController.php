@@ -32,11 +32,23 @@ class AuthController extends Controller
     protected $redirectTo = '/';
 
     /**
+     * Where to redirect after logout
+     * 
+     * @var string
+     */
+    protected $redirectAfterLogout = '/login';
+
+    /**
+     * Username property
+     * @var string
+     */
+    protected $username = "username";
+
+    /**
      * Create a new authentication controller instance.
      *
      * @return void
      */
-    protected $username = "username";
     public function __construct()
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);

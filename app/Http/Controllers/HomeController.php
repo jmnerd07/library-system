@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
-
+use Auth;
 class HomeController extends Controller
 {
     /**
@@ -24,6 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(Auth::guest())
+        {
+            return redirect('/login');
+        }
         return view('home');
     }
 }
