@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('master_management')
 @section('content')
 <div class="container">
     <div class="row">
@@ -73,6 +72,8 @@
                                 </button>
                             </div>
                         </div>
+                        <hr/>
+                        <h5>Already a member? <a href="{{ url('/login') }}" class="text text-info">Click here</a> to login.</h5>
                     </form>
                 </div>
             </div>

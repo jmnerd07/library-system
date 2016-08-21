@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('master_management')
 @section('content')
 <div class="container">
     <div class="row">
@@ -7,13 +6,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
-                    @if($errors && count($errors->all()) > 0)
+                    {{-- @if($errors && count($errors->all()) > 0)
                         <div class="alert alert-danger">
                             @foreach($errors->all() as $key => $error)
                             <div>{{ $error }}</div>
                             @endforeach
                         </div>
-                    @endif
+                    @endif --}}
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 
@@ -64,6 +63,8 @@
                                 <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
                             </div>
                         </div>
+                        <hr/>
+                        <h5>Not a member yet? <a href="{{ url('/register') }}" class="text text-info">Click here</a> to register.</h5>
                     </form>
                 </div>
             </div>
