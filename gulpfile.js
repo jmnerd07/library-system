@@ -35,7 +35,11 @@ elixir(function(mix) {
                 'app.css'
     		], 'public/css/styles.css')
     	/* Custom js */
-    	.scriptsIn('resources/assets/js', 'public/js/app.js')
+        .copy('node_modules/angular/', 'public/vendors/angular')
+    	.scriptsIn('resources/assets/js', 'public/js/custom.js')
+
+        /* Angular files */
+        .copy('resources/assets/js/angular/', 'public/js/')
     	/*.version(['public/vendors/twbs-bootstrap/css/bootstrap.css'
     		,'public/vendors/font-awesome/css/font-awesome.css'
     		,'public/vendors/font-awesome/fonts/'])*/
