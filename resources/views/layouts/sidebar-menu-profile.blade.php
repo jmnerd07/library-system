@@ -9,4 +9,6 @@
   </div>
 </div>
 <br/>	
+<p></p>
+<div class="clearfix"></div>
 <!-- /menu profile quick info -->

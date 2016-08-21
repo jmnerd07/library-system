@@ -1,4 +1,5 @@
 @extends('master_management')
+@section('title','Sign Up')
 @section('content')
 <div class="container">
     <div class="row">
