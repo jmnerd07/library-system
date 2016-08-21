@@ -39,7 +39,10 @@ elixir(function(mix) {
     	.scriptsIn('resources/assets/js', 'public/js/custom.js')
 
         /* Angular files */
-        .copy('resources/assets/js/angular/', 'public/js/')
+        .copy('resources/assets/js/', 'public/js/')
+
+        /* Reactjs */
+        .browserify('resources/assets/js/library/react.js','public/js/library/react.js')
     	/*.version(['public/vendors/twbs-bootstrap/css/bootstrap.css'
     		,'public/vendors/font-awesome/css/font-awesome.css'
     		,'public/vendors/font-awesome/fonts/'])*/

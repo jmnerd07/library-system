@@ -5,6 +5,7 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
+    "babel-preset-react": "^6.11.1",
     "bootstrap-sass": "^3.3.0",
     "gulp": "^3.9.1",
     "gulp-notify": "^2.2.0",
