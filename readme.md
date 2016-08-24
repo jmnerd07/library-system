@@ -30,3 +30,19 @@ Integrated Library System
 
 System Requirments
 - MySQL version >= 5.6.5
+- PHP 5.4.*
+- Apache 2.4
+- Node (npm)
+
+Database
+- create database named "library_core" in mysql
+- inside the root directory of the app, run "php artisan migrate"
+
+Steps
+- clone this repository and go inside the directory
+- run "composer install"
+- run "gulp"
+- start mysql service and apache service
+- run "php artisan serve"
+- access "http://localhost:8000/"
+- Now register

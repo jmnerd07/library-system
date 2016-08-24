@@ -17,7 +17,7 @@
     <link href="{{ asset('vendors/twbs-bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="{{ asset('vendors/nprogress/css/nprogress.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ elixir('css/styles.css') }}">
     <!--[if lt IE 9]>
     <script src="../assets/js/ie8-responsive-file-warning.js"></script>
     <![endif]-->
@@ -124,8 +124,9 @@
     <script type="text/javascript" src="{{ asset('vendors/twbs-bootstrap/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendors/fastclick/fastclick.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendors/nprogress/js/nprogress.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/library/react-0.14.6/build/react.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/library/react-0.14.6/build/react-dom.js')}}"></script>
     <script type="text/javascript" src="{{ asset('vendors/angular/angular.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/library/react.js')}}"></script>
     <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/factories/modal-box.factory.js') }}"></script>

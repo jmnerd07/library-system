@@ -29,11 +29,6 @@ elixir(function(mix) {
     	/* NProgress */
     	.copy('node_modules/nprogress/nprogress.css','public/vendors/nprogress/css')
     	.copy('node_modules/nprogress/nprogress.js','public/vendors/nprogress/js')
-    	/* Custom CSS */
-    	.styles([
-    			'custom.css',
-                'app.css'
-    		], 'public/css/styles.css')
     	/* Custom js */
         .copy('node_modules/angular/', 'public/vendors/angular')
     	.scriptsIn('resources/assets/js', 'public/js/custom.js')
@@ -41,8 +36,18 @@ elixir(function(mix) {
         /* Angular files */
         .copy('resources/assets/js/', 'public/js/')
 
+        /* Custom CSS */
+        .sass([
+                'app/global.scss',
+                'app/books/books_form.partial.scss'
+            ],'resources/assets/css/app.css')
+        .styles([
+                'custom.css',
+                'app.css'
+            ],'public/css/styles.css')
+        .version('public/css/styles.css')
         /* Reactjs */
-        .browserify('resources/assets/js/library/react.js','public/js/library/react.js')
+        //.browserify('resources/assets/js/library/react.js','public/js/library/react.js')
     	/*.version(['public/vendors/twbs-bootstrap/css/bootstrap.css'
     		,'public/vendors/font-awesome/css/font-awesome.css'
     		,'public/vendors/font-awesome/fonts/'])*/
