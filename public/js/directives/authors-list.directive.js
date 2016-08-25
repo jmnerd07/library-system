@@ -14,9 +14,9 @@
 				template:  [
 					'<div class="autosuggest-author-body" >',
 						'<div class="list-group" >',
-							'<a class="list-group-item" data-is-hidden="ngHide" data-ng-filter-keyword-author="ngAuthorKeyword" data-selected-author-id="selectedAuthorId" href="#" data-record-id="{{ author.id }}" data-author-name="{{ author.author_name }}" data-ng-repeat="author in items = ( authors | filter: ngAuthorKeyword) ">{{ author.author_name }}</a>',
+							'<a class="list-group-item" data-is-hidden="ngHide" data-ng-filter-keyword-author="ngAuthorKeyword" data-selected-author-id="selectedAuthorId" href="#" data-record-id="{{ author.id }}" data-author-name="{{ author.name }}" data-ng-repeat="author in items = ( authors | filter: ngAuthorKeyword) ">{{ author.name }}</a>',
 							'<a class="list-group-item text-success save-new-author-suggest" data-ng-selected-author-id="selectedAuthorId" data-ng-author-keyword="ngAuthorKeyword" href="#" data-ng-if="items.length === 0 && ngAuthorKeyword != \'\'" data-author-list="authors" >Click here to save <b>{{ ngAuthorKeyword }}</b></a>',
-					'</div>',
+						'</div>',
 					'</div>'
 				].join(""),
 				link: function(scope, elem, attrs) {
@@ -51,28 +51,28 @@
 						data: {author_name: scope.authorName, type: 'async'},
 						method: 'POST',
 						headers: {
-							'Content-Type': 'application/json'/* 'application/x-www-form-urlencoded; charset=UTF-8'*/
+							'Content-Type': 'application/json',
+							'X-Requested-With':'XMLHttpRequest'
 						}
 					}).then(function(e){
-						if(Object.keys(e.data.error).length > 0)
+						elem.html('<small class="text-primary">New author created!</small>');
+						$rootScope.$broadcast('reloadAuthor');
+						scope.$emit("selectedAuthor", {name: e.data.author.name, id: e.data.author.id });
+					}, function(x) {
+						console.log(x);
+						if( ! x.status === 422) 
 						{
-							if( ! e.data.error.hasOwnProperty('author_name'))
+							if(!r.data)
 							{
-								return ;
+								return;
 							}
 							var errorMsg = '';
-							angular.forEach(e.data.error.author_name, function(v, i){
+							angular.forEach(e.data, function(v, i){
 								errorMsg += '<small class="text-danger">'+ v + '</small>';
 							});
 							elem.html(errorMsg);
 							return;
 						}
-						elem.html('<small class="text-primary">New author created!</small>');
-						$rootScope.$broadcast('reloadAuthor');
-						//scope.$apply('selectedAuthorId = '+ e.data.model.id + '; authorName = "' + e.data.model.author_name + '";')
-						scope.$emit("selectedAuthor", {name: e.data.model.author_name, id: e.data.model.id });
-					}, function(x) {
-						console.log(x);
 						elem.html('<small class="text-danger">Author not save. Unknown error.</small>');
 					})
 				})

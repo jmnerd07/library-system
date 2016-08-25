@@ -21,12 +21,12 @@ var AuthorsList = React.createFactory(React.createClass({
 
 		var _data = this.props.list.map(function(o){
 			if(keyword !== '') {
-				if(o.author_name.toLowerCase().match(keyword.toLowerCase())) {
-					return React.DOM.a({className: 'list-group-item', href: '#','data-id': o.id, 'data-author':o.author_name, 'onClick': onSelectAuthor}, o.author_name);
+				if(o.name.toLowerCase().match(keyword.toLowerCase())) {
+					return React.DOM.a({className: 'list-group-item', href: '#','data-id': o.id, 'data-author':o.name, 'onClick': onSelectAuthor}, o.name);
 				}
 			}
 			else {
-				return React.DOM.a({className: 'list-group-item', href: '#','data-id': o.id,'data-author':o.author_name, 'onClick': onSelectAuthor}, o.author_name);
+				return React.DOM.a({className: 'list-group-item', href: '#','data-id': o.id,'data-author':o.name, 'onClick': onSelectAuthor}, o.name);
 			}
 		});
 		return  React.DOM.div({className: 'author-suggest'},

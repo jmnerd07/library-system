@@ -51,28 +51,28 @@
 						data: {publisher_name: scope.publisherName, type: 'async'},
 						method: 'POST',
 						headers: {
-							'Content-Type': 'application/json'/* 'application/x-www-form-urlencoded; charset=UTF-8'*/
+							'Content-Type': 'application/json',
+							'X-Requested-With':'XMLHttpRequest'
 						}
 					}).then(function(e){
-						if(Object.keys(e.data.error).length > 0)
+						elem.html('<small class="text-primary">New publisher created!</small>');
+						$rootScope.$broadcast('reloadPublisher');
+						scope.$emit("selectedPublisher", {name: e.data.publisher.name, id: e.data.publisher.id });
+					}, function(x) {
+						console.log(x);
+						if( ! x.status === 422) 
 						{
-							if( ! e.data.error.hasOwnProperty('publisher_name'))
+							if(!r.data)
 							{
-								return ;
+								return;
 							}
 							var errorMsg = '';
-							angular.forEach(e.data.error.publisher_name, function(v, i){
+							angular.forEach(e.data, function(v, i){
 								errorMsg += '<small class="text-danger">'+ v + '</small>';
 							});
 							elem.html(errorMsg);
 							return;
 						}
-						elem.html('<small class="text-primary">New publisher created!</small>');
-						$rootScope.$broadcast('reloadPublisher');
-						//scope.$apply('selectedPublisherId = '+ e.data.model.id + '; publisherName = "' + e.data.model.publisher_name + '";')
-						scope.$emit("selectedPublisher", {name: e.data.model.publisher_name, id: e.data.model.id });
-					}, function(x) {
-						console.log(x);
 						elem.html('<small class="text-danger">Publisher not save. Unknown error.</small>');
 					})
 				})

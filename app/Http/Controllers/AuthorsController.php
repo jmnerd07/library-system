@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Book;
 use App\Http\Requests;
-
-class BooksController extends Controller
+use App\Models\Author;
+use Auth;
+class AuthorsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,7 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $books = Book::where('record_id',NULL)->orderBy('title', 'ASC')->get();
-
-        return view('books.index', compact('books'));
+        //
     }
 
     /**
@@ -27,9 +25,7 @@ class BooksController extends Controller
      */
     public function create()
     {
-        $book = new Book();
-        $action_route = 'books.save_new';
-        return view('books._books_form', compact('book', 'action_route'));
+        //
     }
 
     /**
@@ -41,23 +37,41 @@ class BooksController extends Controller
     public function store(Request $request)
     {
         $this->validate(
-            $request, 
+            $request,
             [
-                'title' => 'required',
-                'author' => 'required',
-                'publisher'=>'required',
-                'isbn' => "required|max:13|min:13|regex:/^[1-9][0-9]{12}$/"
+                'author_name'=> 'required|min:5'
             ],
             [
-                'title.required'=>'Book title is required',
-                'author.required' => 'Book author is required',
-                'isbn.required' => 'ISBN is required',
-                'isbn.max' => 'ISBN must be exactly 13 characters',
-                'isbn.min' => 'ISBN must be exactly 13 characters',
-                'isbn.regex'=>'ISBN must contain numbers only.',
-                'publisher.required'=>'Publisher is required'
+                'author_name.required'=>'Author name is required. Author not saved.',
+                'author_name.min'=>'Author name must be minimum of 5 characters'
             ]
         );
+        if($request->ajax())
+        {
+            return response()->json($this->_saveNewAuthor($request));   
+        }
+    }
+
+    private function _saveNewAuthor(Request $request)
+    {
+        $author = new Author();
+        $author->name = $request->author_name;
+        $author->user_id_creator = Auth::id();
+        $isSuccess = $author->save();
+
+        if($isSuccess && $author->id)
+        {        
+            $copyAuthor = new Author();
+            $copyAuthor->name = $author->name;
+            $copyAuthor->record_id = $author->id;
+            $copyAuthor->user_id_creator = $author->user_id_creator;
+            $copyAuthor->save();
+
+            return ['error'=>FALSE,'message'=>'New author successfully created.', 'data'=>['author'=>array('name'=>$author->name, 'id'=>$author->id)]];
+        }
+        return ['error'=>TRUE, 'message'=>'Error: no copy row created.', 'data'=>array()];
+
+    
     }
 
     /**
