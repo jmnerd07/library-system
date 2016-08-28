@@ -15,12 +15,16 @@
 		@extend .auto-suggest;
 	}
 	.autosuggest-publisher-body {
-		@extend .auto-suggest;
+		@extend .auto-suggest; 
 	}
 	.close-box-suggestion {
 		padding: 5px 10px;
 		text-align: center;
 		background-color: #F0F0F0;
 		font-size: 13px;
+	}
+	.list-group
+	{
+		margin-bottom: 0px;
 	}
 }

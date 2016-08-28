@@ -68,10 +68,10 @@ class PublishersController extends Controller
             $copy->user_id_creator = $publisher->user_id_creator;
             $copy->record_id = $publisher->id;
             $copy->save();
-            return ['error'=>FALSE, 'message'=>'New publisher successfully created', 'data'=>array('publisher'=>['name'=>$publisher->name, 'id'=>$publisher->id] ) ];
+            return ['error'=>FALSE, 'message'=>'New publisher successfully created', 'publisher'=>['name'=>$publisher->name, 'id'=>$publisher->id] ];
 
         }
-        return ['error'=>TRUE, 'message'=>'Unknown error encountered', 'data'=>[]];
+        return ['error'=>TRUE, 'message'=>'Unknown error encountered', 'publisher'=>[]];
     }
 
     /**

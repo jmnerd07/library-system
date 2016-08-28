@@ -2,23 +2,21 @@
 @section('title', 'Books')
 @section("content")
 	<h2 class="sub-header">Books</h2>
-	@if(session("status"))
-		<div class="alert alert-success alert-dismissible fade in" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			{{ session('status')  }}
+	
+    @if( session('notify') )
+        @if(!session('notify')['error'])
+            <div class="alert alert-success">
+                {{ session('notify')['message'] }}
+            </div>
+        @endif
+    @endif
+	<div class="table-responsive">			
+		<div class="pull-right">
+			<a href="{{ route('books.new') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Add new book</a> 
 		</div>
-	@endif
-	<div class="pull-xs-right">
-		<a href="{{ route('books.new') }}" class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-plus"></span> Add new book</a> 
-	</div>
-	<div class="table-responsive">
-
 		@unless($books->count())
 			<p class="text-danger">No books found.</p>
 		@else
-			<div class="table-responsive">
 				<table class="table table-hover">
 					<thead class="thead-inverse">
 					<tr>
@@ -30,10 +28,28 @@
 					<tbody>
 					@foreach($books as $book)
 						<tr>
-							<td>{{ $book->title }}</td>
-							<td>{{ $book->author->author_name }}</td>
+							<td>{{ $book->name }}</td>
 							<td>
-								{{ link_to_route("books.edit","Edit",[ 'id'=>$book->id], ['class'=>'btn btn-primary btn-sm']) }}
+							@forelse($book->authorList as $key => $author)
+								<div>{{ $author->details->name }}</div>
+							@empty
+								-
+							@endforelse
+							</td>
+							<td>
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<span class="glyphicon glyphicon-option-vertical"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="{{ route('books.edit',['id'=>$book->id]) }}">
+											<span class="glyphicon glyphicon-pencil"></span> 
+											Edit
+										</a>
+									</li>
+								</ul>
+							</div>
 							</td>
 						</tr>
 					@endforeach
@@ -44,8 +60,6 @@
 						</tr>
 					</tfoot>
 				</table>
-			</div>
-
 		@endunless
 
 	</div>

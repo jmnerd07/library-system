@@ -1,5 +1,6 @@
 var elixir = require('laravel-elixir');
 	//gulp = require('gulp')
+require('laravel-elixir-sass-compass')
 
 /*
  |--------------------------------------------------------------------------
@@ -15,7 +16,12 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
 	var bootstrapPath = 'node_modules/bootstrap-sass/assets';
 	var fontAwesomePath = 'node_modules/font-awesome/';
-    mix.sass('bootstrap.scss','public/vendors/twbs-bootstrap/css/bootstrap.css')
+    mix.sass('bootstrap.scss'
+        ,'public/vendors/twbs-bootstrap/css/bootstrap.css'
+        /*,{
+            style: 'compact'
+        }*/
+        )
     	.copy(bootstrapPath + '/fonts/bootstrap', 'public/vendors/twbs-bootstrap/fonts/bootstrap')
     	.copy(bootstrapPath + '/javascripts/bootstrap.min.js', 'public/vendors/twbs-bootstrap/js')
     	/* font-awesome */

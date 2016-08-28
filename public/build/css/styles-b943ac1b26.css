@@ -663,9 +663,14 @@ a:hover, a:focus {
   padding: 4px 6px; }
 
 footer {
-  background: #fff;
+  background: #fff none repeat scroll 0 0;
+  bottom: 0;
+  display: block;
+  left: 0;
   padding: 15px 20px;
-  display: block; }
+  position: fixed;
+  right: 0;
+}
 
 .nav-sm footer {
   margin-left: 70px; }
@@ -1907,7 +1912,7 @@ span.section {
   border-bottom: 1px solid #e5e5e5; }
 
 .form-control {
-  border-radius: 0;
+  /*border-radius: 0;*/
   width: 100%; }
 
 .form-horizontal .control-label {
@@ -4151,6 +4156,9 @@ body {
   text-align: center;
   background-color: #F0F0F0;
   font-size: 13px; }
+
+.books-form .list-group {
+  margin-bottom: 0px; }
 
 /*# sourceMappingURL=app.css.map */
 

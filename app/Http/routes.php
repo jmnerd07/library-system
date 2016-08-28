@@ -19,31 +19,26 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 Route::group(['prefix'=>'management'], function() {
-	Route::group(['prefix' => 'books'], function () {
+	Route::group(['prefix'=>'books','middleware'=>'auth'], function () {
 		Route::get('/', [
-				"as" => "books.home",
-				"middleware"=>"web",
-				"uses" => "BooksController@index"
+			"as" => "books.home",
+			"uses" => "BooksController@index"
 		]);
 		Route::get('/new', [
-				"as" => "books.new",
-				"middleware" => "web",
-				"uses" => "BooksController@create"
+			"as" => "books.new",
+			"uses" => "BooksController@create"
 		]);
-		Route::post('/save_new', [
-				"as" => "books.save_new",
-				"middleware" => "web",
-				"uses" => "BooksController@store"
+		Route::post('/save-new', [
+			"as" => "books.saveNew",
+			"uses" => "BooksController@store"
 		]);
 		Route::post('/update_save', [
 			'as' => 'books.update_save',
-			'middleware'=> 'web',
 			'uses'=>'BooksController@update'
 		]);
 		Route::get('/modify/{id?}', [
-				"as" => "books.edit",
-				"middleware"=> "web",
-				"uses" => "BooksController@edit"
+			"as" => "books.edit",
+			"uses" => "BooksController@edit"
 		]);
 	});
 
