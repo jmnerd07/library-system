@@ -8,13 +8,27 @@ class Book extends Model
 {
     protected $table = "books";
     protected $fillable = []; // Please fill this up
+    protected $casts = [
+            'author_id'=>'integer',
+            'publisher_id'=>'integer',
+            'date_published'=>'date',
+            'created_at'=>'datetime',
+            'available'=>'boolean',
+            'count'=>'integer',
+            'pages'=>'integer'
+        ];
+    protected $hidden = [
+            'user_id_creator', 'user_id_modifier'
+        ];
+
+    protected $guarded = ['created_at', 'updated_at', 'deleted_at'];
     public function booksGenres()
     {
         return $this->hasMany('App\Models\BookGenre', 'book_id', 'id');
     }
-    public function author()
+    public function authorList()
     {
-        return $this->hasOne('App\Models\Author', 'id', 'author_id');
+        return $this->hasMany('App\Models\BookAuthor', 'book_id', 'id');
     }
     public function publisher()
     {
