@@ -11,6 +11,10 @@ class BookAuthor extends Model
 	protected $hidden = [
             'user_id_creator', 'created_at', 'id','book_id','author_id'
         ];
+    protected $casts = [
+            'book_id'=>'integer',
+            'author_id'=>'integer'
+        ];
     public function details()
     {
     	return $this->belongsTo('App\Models\Author', 'author_id','id');

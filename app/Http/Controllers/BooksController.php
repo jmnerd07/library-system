@@ -33,8 +33,11 @@ class BooksController extends Controller
     public function create()
     {
         $book = new Book();
+        $book->load('authorList.details');
+        $book->load('publisher');
         $actionRoute = 'books.saveNew';
-        return view('books._books_form', compact('book', 'actionRoute'));
+        $pageTitle = 'Books - New';
+        return view('books._books_form', compact('book', 'actionRoute', 'pageTitle'));
     }
 
     /**
@@ -53,7 +56,7 @@ class BooksController extends Controller
                 'author' => 'required',
                 'publisher'=>'required',
                 'format'=> 'required',
-                'pages'=>'required|numeric|min:1',
+                'pages'=>'required|numeric|min:0',
                 'isbn' => "required|max:13|min:13|regex:/^[1-9][0-9]{12}$/",
                 'date_published'=>'required|date'
             ],
@@ -70,7 +73,7 @@ class BooksController extends Controller
                 'pages.min'=>'Number of pages must be a valid number',
                 'publisher.required'=>'Publisher is required',
                 'date_published.required'=>'Date published is required',
-                'date_published.date'=>'Invalide date'
+                'date_published.date'=>'Invalid date'
             ]
         );
         $authorData = ['error'=>FALSE, 'message'=>'Author exists'];
@@ -138,6 +141,8 @@ class BooksController extends Controller
         $book->date_published = $request->date_published;
         $book->isbn = $request->isbn;
         $book->user_id_creator = Auth::id();
+        $book->format = $request->format;
+        $book->pages = $request->pages;
         $book->count = 0;
         $book->available = FALSE;
         $isSuccess = $book->save();
@@ -153,6 +158,8 @@ class BooksController extends Controller
             $copyBook->count = $book->count;
             $copyBook->available = $book->available;
             $copyBook->record_id = $book->id;
+            $copyBook->format = $book->format;
+            $copyBook->pages = $book->pages;
             $copyBook->save();
 
             return ['error'=>FALSE,'message'=>'New book successfully created.', 'book'=>$book];
@@ -226,7 +233,17 @@ class BooksController extends Controller
      */
     public function edit($id)
     {
-        //
+        $book = Book::where('id',$id)->where('record_id', NULL)->first();
+        if(!$book)
+        {
+            return redirect()->route('books.home')->with('error','Record not found. Please contact administrator.');
+        }
+        $book->load('authorList.details');
+        $book->load('publisher');
+
+        $actionRoute = 'books.updateSave';
+        $pageTitle = 'Books - Edit';
+        return view('books._books_form', compact('actionRoute','book', 'pageTitle'));
     }
 
     /**
@@ -236,11 +253,78 @@ class BooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
-    }
+        
+        $this->validate(
+            $request, 
+            [
+                'title' => 'required',
+                'author' => 'required',
+                'publisher'=>'required',
+                'format'=> 'required',
+                'pages'=>'required|numeric|min:0',
+                'isbn' => "required|max:13|min:13|regex:/^[1-9][0-9]{12}$/",
+                'date_published'=>'required|date'
+            ],
+            [
+                'title.required'=>'Book title is required',
+                'author.required' => 'Book author is required',
+                'isbn.required' => 'ISBN is required',
+                'isbn.max' => 'ISBN must be exactly 13 characters',
+                'isbn.min' => 'ISBN must be exactly 13 characters',
+                'isbn.regex'=>'ISBN must contain numbers only.',
+                'format.required'=>'Book format is required',
+                'pages.required'=>'Number of pages is required',
+                'pages.numeric'=>'Number of pages must be a valid number',
+                'pages.min'=>'Number of pages must be a valid number',
+                'publisher.required'=>'Publisher is required',
+                'date_published.required'=>'Date published is required',
+                'date_published.date'=>'Invalide date'
+            ]
+        );
+        $id = $request->id;
+        $book = Book::where('id',$id)->where('record_id', NULL)->first();
+        if(!$book)
+        {
+            return redirect()->route('books.home')->with('error','Record not found. Please contact administrator.');
+        }
+        $book->load('authorList.details');
+        $book->load('publisher');
 
+        $this->_saveUpdateBookAuthor($request, $book);
+        /*return response()->json($this->_saveUpdateAuthor($request, $book));*/
+    }
+    private function _saveUpdateBookAuthor(Request $request, Book &$book)
+    {
+        $book->authorList[0]->author_id = $request->author_id;
+        $isSuccess = $book->authorList[0]->save();
+        $book->load('authorList.details');
+    }
+    private function _saveUpdateAuthor(Request $request, Book $book)
+    {
+        $author = $book->authorList[0]->details;
+        $authorUpdatedAt = $author->updated_at;
+        $author->name = $request->author;
+        $isSuccess = $author->save();
+        if($isSuccess && $author->updated_at != $authorUpdatedAt)
+        {
+            $copyAuthor = new Author();
+            $copyAuthor->name = $author->name;
+            $copyAuthor->record_id = $author->id;
+            $copyAuthor->description = $author->description;
+            $copyAuthor->user_id_creator = $author->user_id_creator;
+            $copyAuthor->updated_at = NULL;
+            $copyAuthor->save();
+
+        }
+
+        return ['error'=>$isSuccess,'message'=>'Author successfully updated.', 'author'=>array('name'=>$author->name, 'id'=>$author->id)];
+    }
+    private function _saveUpdatePublisher(Request $request, Book $book)
+    {
+
+    }
     /**
      * Remove the specified resource from storage.
      *

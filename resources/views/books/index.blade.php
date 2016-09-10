@@ -10,6 +10,11 @@
             </div>
         @endif
     @endif
+    @if( session('error') )
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 	<div class="table-responsive">			
 		<div class="pull-right">
 			<a href="{{ route('books.new') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Add new book</a> 

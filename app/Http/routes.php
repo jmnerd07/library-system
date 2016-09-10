@@ -32,13 +32,14 @@ Route::group(['prefix'=>'management'], function() {
 			"as" => "books.saveNew",
 			"uses" => "BooksController@store"
 		]);
-		Route::post('/update_save', [
-			'as' => 'books.update_save',
+		Route::post('/update-save', [
+			'as' => 'books.updateSave',
 			'uses'=>'BooksController@update'
 		]);
 		Route::get('/modify/{id?}', [
 			"as" => "books.edit",
-			"uses" => "BooksController@edit"
+			"uses" => "BooksController@edit",
+			"model"=>App\Models\Book::class
 		]);
 	});
 

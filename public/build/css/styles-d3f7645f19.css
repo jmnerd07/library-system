@@ -4140,7 +4140,7 @@ body {
   margin: 0; }
 
 .books-form .auto-suggest, .books-form .autosuggest-author-body, .books-form .autosuggest-publisher-body {
-  position: fixed;
+  position: absolute;
   z-index: 1;
   max-height: 250px;
   overflow-x: hidden;
