@@ -14,15 +14,15 @@
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
-    @endif
-	<div class="table-responsive">			
-		<div class="pull-right">
-			<a href="{{ route('books.new') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Add new book</a> 
-		</div>
-		@unless($books->count())
+    @endif		
+	<div class="pull-right">
+		<a href="{{ route('books.new') }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Add new book</a> 
+	</div>
+	<div class="">	
+		@if($books->count() === 0)
 			<p class="text-danger">No books found.</p>
 		@else
-				<table class="table table-hover">
+				<table class="table table-hover table-responsive">
 					<thead class="thead-inverse">
 					<tr>
 						<th>Title</th>
@@ -35,11 +35,13 @@
 						<tr>
 							<td>{{ $book->name }}</td>
 							<td>
-							@forelse($book->authorList as $key => $author)
-								<div>{{ $author->details->name }}</div>
-							@empty
+							@if (!$book->authorList->count())
 								-
-							@endforelse
+							@else
+								@foreach($book->authorList as $key => $author)
+									<div>{{ $author->details->name }}</div>
+								@endforeach
+							@endif
 							</td>
 							<td>
 							<div class="btn-group">
@@ -51,6 +53,12 @@
 										<a href="{{ route('books.edit',['id'=>$book->id]) }}">
 											<span class="glyphicon glyphicon-pencil"></span> 
 											Edit
+										</a>
+									</li>
+									<li>
+										<a href="#modal-box" data-toggle="modal">
+											<span class="glyphicon glyphicon-list-alt"></span> 
+											View vhange logs
 										</a>
 									</li>
 								</ul>
@@ -65,7 +73,7 @@
 						</tr>
 					</tfoot>
 				</table>
-		@endunless
+		@endif
 
 	</div>
 @stop

@@ -18,7 +18,7 @@ class Book extends Model
             'pages'=>'integer'
         ];
     protected $hidden = [
-            'user_id_creator', 'user_id_modifier'
+            'user_id_modifier'
         ];
 
     protected $guarded = ['created_at', 'updated_at', 'deleted_at'];
@@ -33,5 +33,9 @@ class Book extends Model
     public function publisher()
     {
         return $this->hasOne('App\Models\Publisher', 'id', 'publisher_id');
+    }
+    public function changeLogs()
+    {
+        return $this->hasMany('App\Models\Book', 'record_id', 'id');
     }
 }

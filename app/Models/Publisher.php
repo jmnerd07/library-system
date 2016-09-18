@@ -10,5 +10,6 @@ class Publisher extends Model
     	'user_id_creator'=>'integer',
     	'user_id_modifier'=>'integer',
     	'record_id'=>'integer',
+    	'id'=>'integer'
     ];
 }

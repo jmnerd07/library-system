@@ -51,11 +51,11 @@
 
                 }}
                 {{ Form::hidden("author_id"
-                    , (old('author_id') ? old('author_id') : ($book->authorList->count() ? $book->authorList[0]->id: 0 ))
+                    , (old('author_id') ? old('author_id') : ($book->authorList->count() ? $book->authorList[0]->details->id: 0 ))
                     , [ 
                           'data-ng-model'=>'authorId'
                         , 'data-ng-value'=>'authorId'
-                        , 'data-ng-init'=>'authorId="'.(old('author_id') ? old('author_id') : ($book->authorList->count() ? $book->authorList[0]->id: 0 )) .'"'
+                        , 'data-ng-init'=>'authorId="'.(old('author_id') ? old('author_id') : ($book->authorList->count() ? $book->authorList[0]->details->id: 0 )) .'"'
                         ]
                     ) 
                 }}

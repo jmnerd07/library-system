@@ -11,5 +11,9 @@ class Author extends Model
 		'user_id_creator'=>'integer',
 		'user_id_modifier'=>'integer'
 	];
-   
+
+	public function changeLogs()
+	{
+		return $this->hasMany('App\Models\Author', 'record_id', 'id');
+	}
 }
